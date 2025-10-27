@@ -1,13 +1,18 @@
-import os
-from dotenv import load_dotenv
+from pydantic_settings import BaseSettings
+from pydantic import AnyUrl
+from typing import Optional
 
-load_dotenv()
 
-class Settings:
-    PROJECT_NAME: str = "FastAPI Auth Roles"
-    DATABASE_URL: str = os.getenv("DATABASE_URL")
-    JWT_SECRET: str = os.getenv("JWT_SECRET")
-    JWT_ALGORITHM: str = "HS256"
+class Settings(BaseSettings):
+    DATABASE_URL: str
+    SECRET_KEY: str
+    ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+
+    model_config = {
+        "env_file": ".env",
+        "case_sensitive": True,
+    }
+
 
 settings = Settings()
